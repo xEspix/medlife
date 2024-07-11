@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medapp</title>
+</head>
+<body>
+    {% include 'base.html' %}
+
+    <div style="width:100%" class="row align-items-center pt-5 p-5 mt-5">
+      <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
+        <h1 class="display-4 fw-bold lh-1 text-body-emphasis">Your Virtual<span class="text-primary"> Healthcare Companion</span> for a Healthier Tomorrow</h1>
+        <p class="lead fs-3 mt-3" style="line-height: 1.2;">Partner with our virtual medical assistant for proactive health management and a brighter, healthier future.</p>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
+        <a href="{{ url_for('dashboard') }}">
+          <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold mt-3">Get Strated <i class="fa-solid fa-arrow-right"></i></button>
+        </a> 
+        <a href="{{ url_for('dashboard') }}">
+          <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold mt-3">Dashboard <i class="fa-solid fa-arrow-right"></i></button>
+        </a>  
+        </div>
+      </div>
+      <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden shadow-lg">
+        <span>space for image</span>
+          <img class="rounded-lg-3" src="" alt="" width="720">
+      </div>
+    </div>
+    {% include 'footer.html' %}
+    
+</body>
+</html>

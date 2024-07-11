@@ -1,0 +1,15 @@
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div style="display:flex ;justify-content:center; align-items:center;">
+                <div style="width: calc(2/5 * 100%); padding: 20px 16px;  position:fixed;" class="d-flex align-items-center justify-content-between fixed-top shadow-lg rounded fw-semibold
+                            alert {% if category == 'error' %} alert-danger {% else %} alert-success {% endif %} fixed-right" role="alert">
+                    {{ message }}
+                    <!-- <button type="button" class="btn btn-ghost text-dark ms-4 custom-px-5 " style=" border:0; padding-left: 1.5rem !important; padding-right: 1.5rem !important;" data-bs-dismiss="alert" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </button> -->
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}

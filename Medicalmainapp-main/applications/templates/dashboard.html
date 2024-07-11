@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .sidebar {
+      width: 250px;
+      height: 100%;
+      position: fixed;
+      top: 0;
+      left: -250px;
+      /* Hidden by default */
+      transition: left 0.3s;
+      background-color: #333;
+      color: white;
+      padding: 15px;
+    }
+
+    .sidebar.visible {
+      left: 0;
+      /* Visible when the 'visible' class is added */
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <title>Dashboard</title>
+
+</head>
+
+<body>
+  <div class="flex bg-zinc-100 ">
+    <div class="md:block hidden w-72 h-screen bg-white px-7 py-4 shadow-xl md:block hidden">
+      <div class="flex justify-center items-center bg-white p-2 px-4 border-2 border-indigo-500 rounded-full">
+        <i class=" fa-solid text-2xl fa-notes-medical"></i>
+        <h4 class="pl-4 text-2xl font-semibold ">Medassis</h4>
+      </div>
+      <div
+        class="flex items-center text-xl shadow-md font-semibold bg-indigo-500 justify-center pb-3 rounded-xl text-white mt-2">
+        <div class=" mt-3 w-10 h-10 rounded-full bg-white text-indigo-500 flex items-center justify-center"><i
+            class="fa-solid fa-user"></i></div>
+        <h2 class="pt-3 pl-3">{{ user.username }}</h2>
+      </div>
+
+      <div class="pt-5">
+        <ul>
+          <a href="{{ url_for('home_page') }}">
+            <li
+              class="font-semibold text-gray-900 px-4 py-3 hover:text-sky-600 hover:bg-indigo-500 rounded-xl hover:text-white duration-100">
+              <i class="fa-solid text-xl fa-house pr-3"></i>Home</li>
+          </a>
+          <a href="{{ url_for('about') }}">
+            <li
+              class="font-semibold text-gray-900 px-4 py-3 hover:text-sky-600 hover:bg-indigo-500 rounded-xl hover:text-white duration-100">
+              <i class="fa-solid text-xl fa-users pr-3"></i>About</li>
+          </a>
+          <li
+            class="cursor-pointer font-semibold text-gray-900 px-4 py-2 hover:text-sky-600 hover:bg-indigo-500 rounded-xl hover:text-white duration-100">
+            <i class="fa-brands text-xl pr-3 fa-creative-commons-nd"></i>Services
+            <ul class="ml-3 pt-1">
+              <a>
+                <li class=" py-1 font-normal hover:text-black"><i class="fa-solid fa-chart-simple pr-4"></i>Patient
+                  Stats</li>
+              </a>
+              <a>
+                <li class=" py-1 font-normal hover:text-black"><i class="fa-solid fa-stethoscope pr-3"></i>Checkup</li>
+              </a>
+            </ul>
+          </li>
+          <a href="{{ url_for('logout') }}">
+            <li
+              class="font-semibold text-gray-900 px-4 py-3 hover:bg-indigo-500 rounded-xl hover:text-white duration-100">
+              <i class="text-xl fa-solid fa-right-from-bracket pr-3"></i>Logout</li>
+          </a>
+        </ul>
+      </div>
+    </div>
+
+
+    <div class="p-7 text-2xl flex-1 font-semibold">
+      <span class="bg-sky-500 block text-white justify-between flex p-1 px-5 shadow-md mb-3 rounded-full md:hidden">
+        <span class="p-2">Medassis</span>
+        <span class="p-2 px-4" id="menu">
+          <button type="button"
+            class="text-white bg-sky-500 inline-flex w-full justify-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-zinc-900/10 duration-100 hover:rounded-full"
+            id="menu-button" aria-expanded="true" aria-haspopup="true">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+        </span>
+      </span>
+      <div id="sidebar" class="sidebar md:hidden bg-white shadow-lg z-10">
+        <div class="flex justify-center items-center bg-white p-2 px-4 border-2 border-sky-400 rounded-full text-black">
+          <i class="fa-solid text-2xl fa-notes-medical"></i>
+          <h4 class="pl-4 text-xl font-semibold ">Medassis</h4>
+        </div>
+        <div class="flex items-center text-xl font-semibold">
+          <div class="mt-3 w-10 h-10 rounded-full bg-white flex items-center justify-center border-2 border-black">
+            <i class="fa-solid fa-user"></i>
+          </div>
+          <h2 class="pt-3 pl-3 text-black text-sm">{{ user.username }}</h2>
+        </div>
+        <div class="pt-5">
+          <ul>
+            <a href="{{ url_for('home_page') }}">
+              <li
+                class="border-b font-semibold text-sm border-gray-400 text-gray-900 px-4 py-2 hover:text-sky-600 hover:bg-slate-100">
+                <i class="fa-solid text-xl fa-house pr-3"></i>Home
+              </li>
+            </a>
+            <a href="{{ url_for('about') }}">
+              <li
+                class="border-b font-semibold text-sm border-gray-400 text-gray-900 px-4 py-2 hover:text-sky-600 hover:bg-slate-100">
+                <i class="fa-solid text-xl fa-users pr-3"></i>About
+              </li>
+            </a>
+            <li
+              class="border-b font-semibold text-sm border-gray-400 text-gray-900 px-4 py-2 hover:text-sky-600 hover:bg-slate-100">
+              <i class="fa-brands text-xl pr-3 fa-creative-commons-nd"></i>Services
+              <ul class="ml-3 pt-1">
+                <a href="#">
+                  <li class="text-gray-500 text-sm font-normal hover:text-black  hover:bg-slate-100">
+                    <i class="fa-solid fa-chart-simple pr-4"></i>Patient Stats
+                  </li>
+                </a>
+                <a href="#">
+                  <li class="text-gray-500 text-sm font-normal hover:text-black hover:bg-slate-100">
+                    <i class="fa-solid fa-stethoscope pr-3"></i>Checkup
+                  </li>
+                </a>
+              </ul>
+            </li>
+            <a href="{{ url_for('logout') }}">
+              <li class="font-semibold text-gray-900 text-sm px-4 py-2 hover:text-sky-600 hover:bg-slate-100">
+                <i class="text-xl fa-solid fa-right-from-bracket pr-3"></i>Logout
+              </li>
+            </a>
+
+          </ul>
+        </div>
+      </div>
+
+      <h1 class="text-3xl pb-3">Your Data</h1>
+      <div class="bg-sky-500 text-white"></div>
+      <div class="grid md:grid-cols-4 grid-cols-2 gap-4">
+        <div class="bg-white p-3 flex justify-center items-center col-span-2 row-span-2 rounded-lg shadow-md h-96">
+          {{ user.username }}</div>
+        <div class="bg-white rounded-lg shadow-md p-3 flex justify-center items-center"></div>
+        <div class="bg-white rounded-lg shadow-md p-3 flex justify-center items-center">03</div>
+        <div class="bg-white rounded-lg shadow-md p-3 flex justify-center items-center">05</div>
+        <div class="bg-white rounded-lg shadow-md p-3 flex justify-center items-center">06</div>
+      </div>
+      <a href="{{ url_for('check_up') }}"><button
+          class="text-xl mt-3 py-3 px-5 bg-indigo-500 text-white rounded-full relative hover:bg-indigo-800 duration-100">Checkup
+          <div class="absolute bg-purple-800 animate-ping w-4 h-4 rounded-full animate ping right-0 top-0"></div>
+          </button></a>
+      <a><button
+          class="text-xl py-3 px-5 bg-white text-indigo-600 border border-indigo-600 rounded-full relative hover:bg-indigo-500 hover:text-white">Reports
+          <div class="absolute bg-purple-800 animate-ping w-4 h-4 rounded-full animate ping right-0 top-0"></div>
+          </button></a>
+    </div>
+  </div>
+  <script>
+    const menu = document.getElementById("menu");
+    const sidebar = document.getElementById("sidebar");
+
+    menu.addEventListener("click", () => {
+      sidebar.classList.toggle("visible");
+    });
+  </script>
+
+
+</body>
+
+</html>

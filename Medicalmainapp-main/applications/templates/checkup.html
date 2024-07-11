@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkup</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      * {
+        font-family: "Poppins";
+      }
+      .fade-out {
+            animation: fadeOut 1s ease-out forwards;
+        }
+      @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+    </style>
+  </head>
+  <body class="bg-zinc-100 relative item-center justify-center">
+    
+    {% include 'flash.html' %}
+
+    <div class="flex items-center justify-center bg-zinc-100">
+      <div class="w-full max-w-3xl md:w-3xl w-5/6 py-10">
+        <form
+          method="POST"
+          class="bg-sky-500/30 shadow-md rounded px-8 pt-6 pb-8 mb-4"
+        >
+          <h1 class="text-4xl pb-4">Patient Details</h1>
+          {{ form.hidden_tag() }}
+          <h4 class="border-b border-gray-400 pt-4 text-xl">
+            Personal Details
+          </h4>
+
+          <div class="mb-4 mt-4">
+            {{ form.username.label(class="block text-gray-700 text-sm font-bold
+            mb-2") }} {{ form.username(class="shadow appearance-none border
+            rounded w-full py-2 px-3 text-gray-700 leading-tight
+            focus:outline-none focus:shadow-outline") }}
+          </div>
+          <div class="mb-4">
+            {{ form.gender.label(class="block text-gray-700 text-sm font-bold
+            mb-2") }} {{ form.gender(class="flex justify-start pr-3 space-x-4")
+            }}
+          </div>
+          <div class="mb-4">
+            {{ form.age.label(class="block text-gray-700 text-sm font-bold
+            mb-2") }} {{ form.age(class="shadow appearance-none border rounded
+            w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none
+            focus:shadow-outline") }}
+          </div>
+          <div class="mb-4">
+            {{ form.address.label(class="block text-gray-700 text-sm font-bold
+            mb-2") }} {{ form.address(class="shadow appearance-none border
+            rounded w-full py-2 px-3 text-gray-700 leading-tight
+            focus:outline-none focus:shadow-outline") }}
+          </div>
+          <div class="mb-4">
+            {{ form.pincode.label(class="block text-gray-700 text-sm font-bold
+            mb-2") }} {{ form.pincode(class="shadow appearance-none border
+            rounded w-full py-2 px-3 text-gray-700 leading-tight
+            focus:outline-none focus:shadow-outline") }}
+          </div>
+          <h4 class="border-b border-gray-400 pt-4 text-xl">Medical Details</h4>
+
+          <div class="mb-4 mt-4">
+            {{ form.hypertension.label(class="block text-gray-700 text-sm
+            font-bold mb-2") }} {{ form.hypertension(class="form-radio
+            text-gray-600") }}
+          </div>
+
+          <div class="mb-4">
+            {{ form.previousHeartDisease.label(class="block text-gray-700
+            text-sm font-bold mb-2") }} {{
+            form.previousHeartDisease(class="form-radio text-gray-600") }}
+          </div>
+
+          <div class="mb-4">
+            {{ form.smoking_History.label(class="block text-gray-700 text-sm
+            font-bold mb-2") }} {{ form.smoking_History(class="shadow
+            appearance-none border rounded w-full py-2 px-3 text-gray-700
+            leading-tight focus:outline-none focus:shadow-outline") }}
+          </div>
+
+          <div class="mb-4">
+            {{ form.weight.label(class="block text-gray-700 text-sm font-bold
+            mb-2") }} {{ form.weight(class="shadow appearance-none border
+            rounded w-full py-2 px-3 text-gray-700 leading-tight
+            focus:outline-none focus:shadow-outline") }}
+          </div>
+
+          <div class="mb-4">
+            {{ form.height.label(class="block text-gray-700 text-sm font-bold
+            mb-2") }} {{ form.height(class="shadow appearance-none border
+            rounded w-full py-2 px-3 text-gray-700 leading-tight
+            focus:outline-none focus:shadow-outline") }}
+          </div>
+
+          <div class="mb-4">
+            {{ form.hba1clvl.label(class="block text-gray-700 text-sm font-bold
+            mb-2") }} {{ form.hba1clvl(class="shadow appearance-none border
+            rounded w-full py-2 px-3 text-gray-700 leading-tight
+            focus:outline-none focus:shadow-outline") }}
+          </div>
+
+          <div class="mb-4">
+            {{ form.blood_glucose.label(class="block text-gray-700 text-sm
+            font-bold mb-2") }} {{ form.blood_glucose(class="shadow
+            appearance-none border rounded w-full py-2 px-3 text-gray-700
+            leading-tight focus:outline-none focus:shadow-outline") }}
+          </div>
+
+          <h4 class="border-b border-gray-400 pt-4 text-xl">Contact Details</h4>
+
+          <div class="mb-4 mt-4">
+            {{ form.email.label(class="block text-gray-700 text-sm font-bold
+            mb-2") }} {{ form.email(class="shadow appearance-none border rounded
+            w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none
+            focus:shadow-outline") }}
+          </div>
+
+          <div class="mb-4">
+            {{ form.phone.label(class="block text-gray-700 text-sm font-bold
+            mb-2") }} {{ form.phone(class="shadow appearance-none border rounded
+            w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none
+            focus:shadow-outline") }}
+          </div>
+
+          <div class="flex items-center justify-between">
+            {{ form.submit(class="bg-indigo-500 hover:bg-indigo-700 text-white
+            font-bold py-2 px-4 rounded shadow-md focus:outline-none
+            focus:shadow-outline") }}
+          </div>
+        </form>
+      </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const closeButtons = document.querySelectorAll('[data-bs-dismiss="alert"]');
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    this.parentElement.style.display = 'none';
+                });
+            });
+
+            const alerts = document.querySelectorAll('[role="alert"]');
+            alerts.forEach(alert => {
+                setTimeout(() => {
+                    alert.classList.add('fade-out');
+                    setTimeout(() => {
+                        alert.style.display = 'none';
+                    }, 1000);
+                }, 3000);
+            });
+        });
+    </script>
+  </body>
+</html>
