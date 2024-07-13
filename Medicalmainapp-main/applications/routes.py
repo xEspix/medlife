@@ -1,7 +1,7 @@
 from applications import app, db
 from applications.forms import RegisterForm, LoginForm,CheckupForm
 from flask import render_template, redirect, url_for, flash, request
-from applications.models import User
+from applications.models import User, Checkup
 from flask_login import login_user, logout_user, login_required,current_user
 import numpy as np
 import pickle
@@ -64,6 +64,7 @@ def sign_up():
 
 @app.route('/checkup',methods=['GET','POST'])
 def check_up():
+    
     myform=CheckupForm()
     if myform.validate_on_submit():
         # Access form data
@@ -83,140 +84,6 @@ def check_up():
         email = myform.email.data
         phone = myform.phone.data
 
-        if hypertension=="Yes":
-            hypertension_int=1
-        else:
-            hypertension_int=0
-        
-        if previousHeartDisease=="Yes":
-            heart_disease=1
-        else:
-            heart_disease=0
-
-        if gender=="Male":
-            gender_int=1
-        else:
-            gender_int=0
-
-        if smoking_History=="other":
-            smk_curr=0
-            smk_ever=0
-            smk_former=0
-            smk_never=0
-            smk_nt_curr=0
-
-        elif smoking_History=="current":
-            smk_curr=1
-            smk_ever=0
-            smk_former=0
-            smk_never=0
-            smk_nt_curr=0
-
-        elif smoking_History=="ever":
-            smk_curr=0
-            smk_ever=1
-            smk_former=0
-            smk_never=0
-            smk_nt_curr=0
-        
-        elif smoking_History=="former":
-            smk_curr=0
-            smk_ever=0
-            smk_former=1
-            smk_never=0
-            smk_nt_curr=0
-
-        elif smoking_History=="never":
-            smk_curr=0
-            smk_ever=0
-            smk_former=0
-            smk_never=1
-            smk_nt_curr=0
-
-        else:
-            smk_curr=0
-            smk_ever=0
-            smk_former=0
-            smk_never=0
-            smk_nt_curr=1
-
-        bmi=weight/(height*height)
-        if bmi>34:
-            wgt_over=1
-            wgt_under=0
-        
-        elif bmi<14:
-            wgt_over=0
-            wgt_under=1
-
-        else:
-            wgt_over=0
-            wgt_under=0
-
-        if hba1clvl=="3below":
-            hba1c_4=0
-            hba1c_5=0
-            hba1c_6=0
-            hba1c_7=0
-            hba1c_8=0
-            hba1c_9=0
-
-        elif hba1clvl=="34":
-            hba1c_4=1
-            hba1c_5=0
-            hba1c_6=0
-            hba1c_7=0
-            hba1c_8=0
-            hba1c_9=0
-
-        elif hba1clvl=="45":
-            hba1c_4=0
-            hba1c_5=1
-            hba1c_6=0
-            hba1c_7=0
-            hba1c_8=0
-            hba1c_9=0
-
-        elif hba1clvl=="56":
-            hba1c_4=0
-            hba1c_5=0
-            hba1c_6=1
-            hba1c_7=0
-            hba1c_8=0
-            hba1c_9=0
-
-        elif hba1clvl=="67":
-            hba1c_4=0
-            hba1c_5=0
-            hba1c_6=0
-            hba1c_7=1
-            hba1c_8=0
-            hba1c_9=0
-
-        elif hba1clvl=="78":
-            hba1c_4=0
-            hba1c_5=0
-            hba1c_6=0
-            hba1c_7=0
-            hba1c_8=1
-            hba1c_9=0
-
-        else:
-            hba1c_4=0
-            hba1c_5=0
-            hba1c_6=0
-            hba1c_7=0
-            hba1c_8=0
-            hba1c_9=1
-
-        query = np.array([age,hypertension_int,heart_disease,blood_glucose,gender_int,smk_curr,smk_ever,smk_former,smk_never,smk_nt_curr,wgt_over,wgt_under,hba1c_4,hba1c_5,hba1c_6,hba1c_7,hba1c_8,hba1c_9])
-
-        query = query.reshape(1,18)
-        input_trf=scaler.transform(query)
-        prediction=model.predict(input_trf)
-
-        print(prediction)
-
         if len(username) < 2:
             flash("Username must be greater than 4 characters.", category='error')
         elif (age) >= 150:
@@ -227,7 +94,166 @@ def check_up():
             flash("Invalid blood glucose level", category='error')
         else:
             flash("Form Submited!", category='success')
-            redirect(url_for('check_up'))
+            if hypertension=="Yes":
+                hypertension_int=1
+            else:
+                hypertension_int=0
+            
+            if previousHeartDisease=="Yes":
+                heart_disease=1
+            else:
+                heart_disease=0
+
+            if gender=="Male":
+                gender_int=1
+            else:
+                gender_int=0
+
+            if smoking_History=="other":
+                smk_curr=0
+                smk_ever=0
+                smk_former=0
+                smk_never=0
+                smk_nt_curr=0
+
+            elif smoking_History=="current":
+                smk_curr=1
+                smk_ever=0
+                smk_former=0
+                smk_never=0
+                smk_nt_curr=0
+
+            elif smoking_History=="ever":
+                smk_curr=0
+                smk_ever=1
+                smk_former=0
+                smk_never=0
+                smk_nt_curr=0
+            
+            elif smoking_History=="former":
+                smk_curr=0
+                smk_ever=0
+                smk_former=1
+                smk_never=0
+                smk_nt_curr=0
+
+            elif smoking_History=="never":
+                smk_curr=0
+                smk_ever=0
+                smk_former=0
+                smk_never=1
+                smk_nt_curr=0
+
+            else:
+                smk_curr=0
+                smk_ever=0
+                smk_former=0
+                smk_never=0
+                smk_nt_curr=1
+
+            bmi=weight/(height*height)
+            if bmi>34:
+                wgt_over=1
+                wgt_under=0
+            
+            elif bmi<14:
+                wgt_over=0
+                wgt_under=1
+
+            else:
+                wgt_over=0
+                wgt_under=0
+
+            if hba1clvl=="3below":
+                hba1c_4=0
+                hba1c_5=0
+                hba1c_6=0
+                hba1c_7=0
+                hba1c_8=0
+                hba1c_9=0
+
+            elif hba1clvl=="34":
+                hba1c_4=1
+                hba1c_5=0
+                hba1c_6=0
+                hba1c_7=0
+                hba1c_8=0
+                hba1c_9=0
+
+            elif hba1clvl=="45":
+                hba1c_4=0
+                hba1c_5=1
+                hba1c_6=0
+                hba1c_7=0
+                hba1c_8=0
+                hba1c_9=0
+
+            elif hba1clvl=="56":
+                hba1c_4=0
+                hba1c_5=0
+                hba1c_6=1
+                hba1c_7=0
+                hba1c_8=0
+                hba1c_9=0
+
+            elif hba1clvl=="67":
+                hba1c_4=0
+                hba1c_5=0
+                hba1c_6=0
+                hba1c_7=1
+                hba1c_8=0
+                hba1c_9=0
+
+            elif hba1clvl=="78":
+                hba1c_4=0
+                hba1c_5=0
+                hba1c_6=0
+                hba1c_7=0
+                hba1c_8=1
+                hba1c_9=0
+
+            else:
+                hba1c_4=0
+                hba1c_5=0
+                hba1c_6=0
+                hba1c_7=0
+                hba1c_8=0
+                hba1c_9=1
+
+            query = np.array([age,hypertension_int,heart_disease,blood_glucose,gender_int,smk_curr,smk_ever,smk_former,smk_never,smk_nt_curr,wgt_over,wgt_under,hba1c_4,hba1c_5,hba1c_6,hba1c_7,hba1c_8,hba1c_9])
+
+            query = query.reshape(1,18)
+            input_trf=scaler.transform(query)
+            prediction=model.predict(input_trf)
+
+            print(prediction[0])
+
+            
+
+            with app.app_context():
+                checkup_data=Checkup(age=age,
+                                    gender=gender,
+                                    hypertension=hypertension,
+                                    heart_disease=previousHeartDisease,
+                                    blood_glucose=blood_glucose,
+                                    weight=weight,
+                                    height=height,
+                                    hba1c=hba1clvl,
+                                    diabetes=prediction[0],
+                                    patient_id=current_user.id)
+                db.session.add(checkup_data)
+                db.session.commit()
+                if prediction[0]==0:
+                    flash(f"Your chances of diabetes is low !!!", category="info")
+                else:
+                    flash(f"Your cances of diabetes is high !!!", category="info")
+
+            return redirect(url_for('dashboard'))
+            
+        
+        
+
+        
     return render_template('checkup.html',form=myform)
 
 

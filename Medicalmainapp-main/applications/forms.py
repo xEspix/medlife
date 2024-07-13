@@ -48,3 +48,4 @@ class CheckupForm(FlaskForm):
     email=StringField('Email',validators=[DataRequired(),Email(),Length(max=50)])
     phone=IntegerField('Phone Number',validators=[DataRequired()])
     submit=SubmitField('Submit')
+
