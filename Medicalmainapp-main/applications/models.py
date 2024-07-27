@@ -26,8 +26,10 @@ class User(db.Model, UserMixin):
 
 class Checkup(db.Model):
     form_id=db.Column(db.Integer(), primary_key=True)
+    name=db.Column(db.String(), nullable=False)
     age=db.Column(db.Integer(), nullable=False)
     gender=db.Column(db.String(), nullable=False)
+    smoking_history=db.Column(db.String(), nullable=False)
     hypertension=db.Column(db.Integer(), nullable=False)
     heart_disease=db.Column(db.Integer(), nullable=False)
     blood_glucose=db.Column(db.Float(), nullable=False)

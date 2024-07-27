@@ -1,0 +1,26 @@
+<!-- Modal INFO-->
+
+<div class="modal fade" id="OTPmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">OTP VERIFICATION</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    <div>
+                        {{ otpform.otp.label() }}
+                        {{ otpform.otp(class="form-control", placeholder="Enter Your 6  digit OTP : ")}}
+                    </div>
+                    <div>
+                        {{ otpform.submit() }}
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

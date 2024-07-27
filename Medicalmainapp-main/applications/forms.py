@@ -40,12 +40,16 @@ class CheckupForm(FlaskForm):
     pincode=IntegerField('Pincode',validators=[DataRequired()])
     hypertension=RadioField('Hypertension',validators=[DataRequired()],choices=['Yes','No'])
     previousHeartDisease=RadioField('Previous Heart Disease',validators=[DataRequired()],choices=['Yes','No'])
-    smoking_History=SelectField("Smoking History",validators=[DataRequired()],choices=[('never','Never'),('former','Former'),('current','Current'),('notcurrent','Not Current'),('ever','Ever'),('other','Other')])
+    smoking_History=SelectField("Smoking History",validators=[DataRequired()],choices=[('Never','Never'),('Former','Former'),('Current','Current'),('Not Current','Not Current'),('Ever','Ever'),('Other','Other')])
     weight=DecimalField("Weight (in kg)",validators=[DataRequired()],places=2)
     height=DecimalField("Height (in m)",validators=[DataRequired()],places=2)
-    hba1clvl=SelectField("HbA1c Level",validate_choice=[DataRequired()],choices=[('3below','below 3'),('34','3-4'),('45','4-5'),('56','5-6'),('67','6-7'),('78','7-8'),('8above','above 8')])
+    hba1clvl=SelectField("HbA1c Level",validate_choice=[DataRequired()],choices=[('3','below 3'),('34','3-4'),('45','4-5'),('56','5-6'),('67','6-7'),('78','7-8'),('8','above 8')])
     blood_glucose=IntegerField('Blood Glucose Level',validators=[DataRequired()])
     email=StringField('Email',validators=[DataRequired(),Email(),Length(max=50)])
     phone=IntegerField('Phone Number',validators=[DataRequired()])
     submit=SubmitField('Submit')
+
+class OtpForm(FlaskForm):
+    otp=IntegerField('Enter Your 6 digit OTP', validators=[DataRequired()])
+    submit=SubmitField('Verify')
 
