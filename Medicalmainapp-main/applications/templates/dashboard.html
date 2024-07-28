@@ -71,11 +71,11 @@
             class="cursor-pointer font-semibold text-gray-900 px-4 py-2 hover:text-sky-600 hover:bg-indigo-500 rounded-xl hover:text-white duration-100">
             <i class="fa-brands text-xl pr-3 fa-creative-commons-nd"></i>Services
             <ul class="ml-3 pt-1">
-              <a>
+              <a href="{{ url_for('index') }}">
                 <li class=" py-1 font-normal hover:text-black"><i class="fa-solid fa-chart-simple pr-4"></i>Patient
                   Stats</li>
               </a>
-              <a>
+              <a href="{{ url_for('check_up') }}">
                 <li class=" py-1 font-normal hover:text-black"><i class="fa-solid fa-stethoscope pr-3"></i>Checkup</li>
               </a>
             </ul>
@@ -130,12 +130,12 @@
               class="border-b font-semibold text-sm border-gray-400 text-gray-900 px-4 py-2 hover:text-sky-600 hover:bg-slate-100">
               <i class="fa-brands text-xl pr-3 fa-creative-commons-nd"></i>Services
               <ul class="ml-3 pt-1">
-                <a href="#">
+                <a href="{{ url_for('index') }}">
                   <li class="text-gray-500 text-sm font-normal hover:text-black  hover:bg-slate-100">
                     <i class="fa-solid fa-chart-simple pr-4"></i>Patient Stats
                   </li>
                 </a>
-                <a href="#">
+                <a href="{{ url_for('check_up') }}">
                   <li class="text-gray-500 text-sm font-normal hover:text-black hover:bg-slate-100">
                     <i class="fa-solid fa-stethoscope pr-3"></i>Checkup
                   </li>

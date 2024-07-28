@@ -1,12 +1,18 @@
 from applications import app, db
 from applications.forms import RegisterForm, LoginForm,CheckupForm, OtpForm
-from flask import render_template, redirect, url_for, flash, request
+from flask import render_template, redirect, url_for, flash, request, jsonify
 from applications.models import User, Checkup
 from flask_login import login_user, logout_user, login_required,current_user
 from applications.mails import send_email
 import numpy as np
 import pickle
 import random
+import pandas as pd
+import plotly.graph_objs as go
+import plotly
+import plotly.express as px
+from flask import Flask, render_template
+import json
 
 phone=0
 name=[]
@@ -319,6 +325,196 @@ def results():
     
     return render_template('result.html', user_data=user_data, current_user=current_user, phone=phone, pincode=pincode, email=email, pred=pred)
 
+@app.route('/plot1')
+def index():
+   
+    df = pd.read_csv('Medicalmainapp-main/applications/static/diabetes_prediction_dataset.csv')
+    
+    diabetes_data = df[df['diabetes'] == 1].head(500)  
+
+    bmi = diabetes_data['bmi']
+    age = diabetes_data['age']
+    hbA1c = diabetes_data['HbA1c_level']
+
+   
+    fig = go.Figure(data=[go.Surface(z=[bmi, age, hbA1c], colorscale='Viridis')])
+
+    fig.update_layout(
+        title='Surface Plot of BMI, Age, and HbA1c Level for People with Diabetes',
+        scene=dict(
+            xaxis_title='BMI',
+            yaxis_title='Age',
+            zaxis_title='HbA1c Level'
+        ),
+        width=1200,  
+        height=800   
+    )
+
+    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+
+    return render_template('index2.html', plot=graphJSON)
+
+@app.route('/plot2')
+def index2():
+    return render_template('index4.html')
+
+@app.route('/bubble_plot')
+def bubble_plot():
+    
+    df = pd.read_csv('Medicalmainapp-main/applications/static/diabetes_prediction_dataset.csv')
+    diabetes_data = df[df['diabetes'] == 1]
+
+    diabetes_sample = diabetes_data.sample(n=200, random_state=42)
+
+    colors = diabetes_sample['smoking_history'].apply(lambda x: 'green' if x == 'never' else 'red')
+
+    fig = px.scatter_3d(diabetes_sample, x='age', y='HbA1c_level', z='blood_glucose_level',
+                        color=colors, size='blood_glucose_level', opacity=0.6,
+                        color_discrete_map={'green': 'green', 'red': 'red'})
+
+    fig.update_layout(
+        title='3D Bubble Plot of Blood Glucose Levels by Age and HbA1c Level with Smoking History for Diabetic Patients',
+        scene=dict(
+            xaxis_title='Age',
+            yaxis_title='HbA1c Level',
+            zaxis_title='Blood Glucose Level'
+        ),
+        legend_title='Smoking History',
+        width=1000,
+        height=800
+    )
+
+    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return graphJSON
+
+@app.route('/plot3')
+def index3():
+    return render_template('index6.html')
+
+@app.route('/histogram')
+def histogram():
+    df = pd.read_csv('Medicalmainapp-main/applications/static/diabetes_prediction_dataset.csv')
+
+    diabetes_data = df[df['diabetes'] == 1]
+
+    age_bins = np.arange(0, diabetes_data['age'].max() + 5, 5)
+
+    fig = px.histogram(diabetes_data, x='age', color='gender', 
+                       title='Histogram of Age by Gender for Diabetic Patients',
+                       labels={'age': 'Age Groups', 'count': 'Frequency of Diabetes'},
+                       nbins=len(age_bins))
+
+    fig.update_layout(
+        bargap=0.1,  
+        bargroupgap=0.2,  
+        width=800,
+        height=600
+    )
+
+    graphJSON = fig.to_json()
+
+    return jsonify(graphJSON)
+
+@app.route('/plot4')
+def index4():
+    return render_template('index8.html')
+
+@app.route('/scatter_plot')
+def scatter_plot():
+    df = pd.read_csv('Medicalmainapp-main/applications/static/diabetes_prediction_dataset.csv')
+
+    diabetes_data = df[df['diabetes'] == 1].sample(n=200, random_state=42)
+    non_diabetes_data = df[df['diabetes'] == 0].sample(n=200, random_state=42)
+    fig = px.scatter_3d(
+        pd.concat([diabetes_data, non_diabetes_data]),
+        x='age', y='bmi', z='HbA1c_level',
+        color=np.where(pd.concat([diabetes_data, non_diabetes_data])['diabetes'] == 1, 'Non-Diabetes', 'Diabetes'),
+        symbol=np.where(pd.concat([diabetes_data, non_diabetes_data])['diabetes'] == 1, 'Non-Diabetes', 'Diabetes'),
+        opacity=0.7,
+        size_max=20,
+        labels={'age': 'Age', 'bmi': 'BMI', 'HbA1c_level': 'HbA1c Level'},
+        title='Scatter Plot of Age vs BMI vs HbA1c Level with Diabetes Status'
+    )
+
+    fig.update_traces(marker=dict(color='blue'), selector=dict(type='scatter3d', name='Non-Diabetes'))
+    fig.update_traces(marker=dict(color='red'), selector=dict(type='scatter3d', name='Diabetes'))
+
+    fig.update_layout(
+        scene=dict(xaxis_title='Age', yaxis_title='BMI', zaxis_title='HbA1c Level'),
+        height=800  
+    )
+
+    graphJSON = fig.to_json()
+
+    return jsonify(graphJSON=graphJSON)
+
+@app.route('/plot5')
+def index5():
+    try:
+        df = pd.read_csv('Medicalmainapp-main/applications/static/diabetes_prediction_dataset.csv')
+
+        diabetes_data = df[df['diabetes'] == 1].head(1000)  
+
+        if diabetes_data.empty:
+            raise ValueError("No data found for people with diabetes.")
+
+        bmi = diabetes_data['bmi']
+        age = diabetes_data['age']
+        hbA1c = diabetes_data['HbA1c_level']
+
+        fig = go.Figure(data=[go.Mesh3d(x=bmi, y=age, z=hbA1c, opacity=0.5)])
+
+        fig.update_layout(
+            title='3D Mesh Plot of BMI, Age, and HbA1c Level for People with Diabetes',
+            scene=dict(
+                xaxis_title='BMI',
+                yaxis_title='Age',
+                zaxis_title='HbA1c Level'
+            ),
+            width=1200,  
+            height=800  
+        )
+
+        graphJSON = fig.to_json()
+
+        return render_template('index9.html', plot=graphJSON)
+
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+@app.route('/plot6')
+def index6():
+
+    df = pd.read_csv('Medicalmainapp-main/applications/static/diabetes_prediction_dataset.csv')
+
+    diabetes_data = df[df['diabetes'] == 1]
+    non_diabetes_data = df[df['diabetes'] == 0]
+
+    diabetes_counts = {
+        'Smoking History': diabetes_data['smoking_history'].value_counts(),
+        'Heart Disease': diabetes_data['heart_disease'].value_counts()
+    }
+
+    non_diabetes_counts = {
+        'Smoking History': non_diabetes_data['smoking_history'].value_counts(),
+        'Heart Disease': non_diabetes_data['heart_disease'].value_counts()
+    }
+
+    fig_diabetes_smoking = go.Figure(data=[go.Pie(labels=diabetes_counts['Smoking History'].index, values=diabetes_counts['Smoking History'].values, name='Smoking History - Diabetes')])
+    fig_diabetes_heart = go.Figure(data=[go.Pie(labels=diabetes_counts['Heart Disease'].index, values=diabetes_counts['Heart Disease'].values, name='Heart Disease - Diabetes')])
+
+    fig_non_diabetes_smoking = go.Figure(data=[go.Pie(labels=non_diabetes_counts['Smoking History'].index, values=non_diabetes_counts['Smoking History'].values, name='Smoking History - Non-Diabetes')])
+    fig_non_diabetes_heart = go.Figure(data=[go.Pie(labels=non_diabetes_counts['Heart Disease'].index, values=non_diabetes_counts['Heart Disease'].values, name='Heart Disease - Non-Diabetes')])
+
+    graphJSON_diabetes_smoking = json.dumps(fig_diabetes_smoking, cls=plotly.utils.PlotlyJSONEncoder)
+    graphJSON_diabetes_heart = json.dumps(fig_diabetes_heart, cls=plotly.utils.PlotlyJSONEncoder)
+    graphJSON_non_diabetes_smoking = json.dumps(fig_non_diabetes_smoking, cls=plotly.utils.PlotlyJSONEncoder)
+    graphJSON_non_diabetes_heart = json.dumps(fig_non_diabetes_heart, cls=plotly.utils.PlotlyJSONEncoder)
+
+    return render_template('index10.html', graphJSON_diabetes_smoking=graphJSON_diabetes_smoking,
+                           graphJSON_diabetes_heart=graphJSON_diabetes_heart,
+                           graphJSON_non_diabetes_smoking=graphJSON_non_diabetes_smoking,
+                           graphJSON_non_diabetes_heart=graphJSON_non_diabetes_heart)
 
 
 @app.route('/logout')

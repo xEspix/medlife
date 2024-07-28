@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>3D Bubble Plot</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <header style="text-align: right;">
+        <a href="{{ url_for('index3') }}"><button type="button" class="btn btn-outline-primary me-2">Next</button></a>
+    </header>
+    <div id="bubble_plot"></div>
+    <script>
+        fetch('/bubble_plot')
+            .then(response => response.json())
+            .then(data => {
+                Plotly.newPlot('bubble_plot', data.data, data.layout);
+            });
+    </script>
+</body>
+</html>

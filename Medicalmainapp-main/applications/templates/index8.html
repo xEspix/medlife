@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scatter Plot</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <header style="text-align: right;">
+        <a href="{{ url_for('index5') }}"><button type="button" class="btn btn-outline-primary me-2">Next</button></a>
+    </header>
+    <h1>Scatter Plot of Age vs BMI vs HbA1c Level with Diabetes Status</h1>
+    
+    <div id="scatterPlot" style="width: 100%; height: 800px;"></div>
+
+    <script>
+        async function renderScatterPlot() {
+            const response = await fetch('/scatter_plot');
+            const data = await response.json();
+            const plotData = JSON.parse(data.graphJSON);
+            Plotly.newPlot('scatterPlot', plotData.data, plotData.layout);
+        }
+        renderScatterPlot();
+    </script>
+</body>
+</html>
