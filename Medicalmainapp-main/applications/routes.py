@@ -281,6 +281,7 @@ def check_up():
             prediction=model.predict(input_trf)
             global pred
             pred=prediction
+
             print(pred)
 
             
@@ -301,10 +302,13 @@ def check_up():
                 db.session.commit()
                 
 
-                if prediction[0]==0:
-                    flash(f"Your chances of diabetes is low !!!", category="success")
-                else:
-                    flash(f"Your cances of diabetes is high !!!", category="error")   
+
+            if prediction[0]==0:
+                flash(f"Your chances of diabetes is low !!!", category="success")
+            else:
+                flash(f"Your cances of diabetes is high !!!", category="error")
+
+            send_email(email,"Medassis Report", f"Name : {username}\n Gender : {gender}\n Age : {age}\n Hypertension : {hypertension}\n Previous Heart Disease : {previousHeartDisease}\n Weight : {weight}\n Height : {height}\n HBA1C Level : {hba1clvl}\n Blood Glucose : {blood_glucose}\n Diabetes : {pred}\n")   
                 
             return redirect(url_for('results'))
             
