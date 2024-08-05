@@ -331,7 +331,7 @@ def results():
 
 @app.route('/plot1')
 def index():
-   
+    previous=request.referrer
     df = pd.read_csv('Medicalmainapp-main/applications/static/diabetes_prediction_dataset.csv')
     
     diabetes_data = df[df['diabetes'] == 1].head(500)  
@@ -356,15 +356,15 @@ def index():
 
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
-    return render_template('index2.html', plot=graphJSON)
+    return render_template('index2.html', plot=graphJSON,previous=previous)
 
 @app.route('/plot2')
 def index2():
-    return render_template('index4.html')
+    previous=request.referrer
+    return render_template('index4.html',previous=previous)
 
 @app.route('/bubble_plot')
 def bubble_plot():
-    
     df = pd.read_csv('Medicalmainapp-main/applications/static/diabetes_prediction_dataset.csv')
     diabetes_data = df[df['diabetes'] == 1]
 
@@ -393,7 +393,8 @@ def bubble_plot():
 
 @app.route('/plot3')
 def index3():
-    return render_template('index6.html')
+    previous=request.referrer
+    return render_template('index6.html',previous=previous)
 
 @app.route('/histogram')
 def histogram():
@@ -421,10 +422,12 @@ def histogram():
 
 @app.route('/plot4')
 def index4():
-    return render_template('index8.html')
+    previous=request.referrer
+    return render_template('index8.html',previous=previous)
 
 @app.route('/scatter_plot')
 def scatter_plot():
+    
     df = pd.read_csv('Medicalmainapp-main/applications/static/diabetes_prediction_dataset.csv')
 
     diabetes_data = df[df['diabetes'] == 1].sample(n=200, random_state=42)
@@ -454,6 +457,8 @@ def scatter_plot():
 
 @app.route('/plot5')
 def index5():
+    previous=request.referrer
+
     try:
         df = pd.read_csv('Medicalmainapp-main/applications/static/diabetes_prediction_dataset.csv')
 
@@ -481,13 +486,14 @@ def index5():
 
         graphJSON = fig.to_json()
 
-        return render_template('index9.html', plot=graphJSON)
+        return render_template('index9.html',previous=previous, plot=graphJSON)
 
     except Exception as e:
         return f"Error: {str(e)}"
 
 @app.route('/plot6')
 def index6():
+    previous=request.referrer
 
     df = pd.read_csv('Medicalmainapp-main/applications/static/diabetes_prediction_dataset.csv')
 
@@ -518,7 +524,8 @@ def index6():
     return render_template('index10.html', graphJSON_diabetes_smoking=graphJSON_diabetes_smoking,
                            graphJSON_diabetes_heart=graphJSON_diabetes_heart,
                            graphJSON_non_diabetes_smoking=graphJSON_non_diabetes_smoking,
-                           graphJSON_non_diabetes_heart=graphJSON_non_diabetes_heart)
+                           graphJSON_non_diabetes_heart=graphJSON_non_diabetes_heart,
+                           previous=previous)
 
 
 @app.route('/logout')
